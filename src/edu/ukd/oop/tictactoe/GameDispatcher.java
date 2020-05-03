@@ -4,11 +4,15 @@ import edu.ukd.oop.tictactoe.player.HumanPlayer;
 import edu.ukd.oop.tictactoe.ui.GameFrame;
 import edu.ukd.oop.tictactoe.player.IPlayer;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import java.awt.Image;
+import java.io.IOException;
 
 public class GameDispatcher {
-    private static final String AI_COMMAND = "AI_COMMAND";
+
     public static int BOARD_SIZE = 3;
     public static int GAME_SIZE = GameDispatcher.BOARD_SIZE * GameDispatcher.BOARD_SIZE;
 
@@ -18,8 +22,14 @@ public class GameDispatcher {
     private IPlayer playerNought;
     private GameFrame frame;
     private int turnCounter;
+    private final ImageIcon iconCross;
+    private final ImageIcon iconNought;
 
-    public GameDispatcher() {
+    public GameDispatcher() throws IOException {
+        Image imgCross = ImageIO.read(ClassLoader.getSystemResource("resources/cross3.png"));
+        iconCross = new ImageIcon(imgCross);
+        Image imgNought = ImageIO.read(ClassLoader.getSystemResource("resources/nought3.png"));
+        iconNought = new ImageIcon(imgNought);
         this.frame = new GameFrame(this);
     }
 
@@ -141,7 +151,15 @@ public class GameDispatcher {
         return currentTurn;
     }
 
-    public static void main(String[] args) {
+    public ImageIcon getIconCross() {
+        return iconCross;
+    }
+
+    public ImageIcon getIconNought() {
+        return iconNought;
+    }
+
+    public static void main(String[] args) throws IOException {
         new GameDispatcher();
     }
 }

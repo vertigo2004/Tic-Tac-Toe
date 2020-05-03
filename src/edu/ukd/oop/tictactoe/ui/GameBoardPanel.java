@@ -1,7 +1,9 @@
 package edu.ukd.oop.tictactoe.ui;
 
 import edu.ukd.oop.tictactoe.GameDispatcher;
+import edu.ukd.oop.tictactoe.Mark;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -15,8 +17,10 @@ public class GameBoardPanel extends JPanel {
 
     private ActionListener boardButtonsListener = (e) -> {
         JButton sourceButton = (JButton) e.getSource();
-        String buttonText = this.dispatcher.getCurrentTurn().toString();
-        sourceButton.setText(buttonText);
+        final ImageIcon imageIcon = dispatcher.getCurrentTurn() == Mark.CROSS
+                ? dispatcher.getIconCross()
+                : dispatcher.getIconNought();
+        sourceButton.setIcon(imageIcon);
         sourceButton.setEnabled(false);
         int buttonPosition = (Integer) sourceButton.getClientProperty(POSITION);
         this.dispatcher.processMoveEvent(buttonPosition);
