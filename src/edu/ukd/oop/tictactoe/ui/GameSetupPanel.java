@@ -23,6 +23,9 @@ public class GameSetupPanel extends JPanel {
         add(crossLabel);
         add(playerOneChooser);
         add(startGameButton);
+        startGameButton.addActionListener( (e) -> {
+            gameDispatcher.newGame();
+        });
         add(playerTwoChooser);
         add(noughtLabel);
         setVisible(true);

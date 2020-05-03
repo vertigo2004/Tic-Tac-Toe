@@ -20,12 +20,16 @@ public class GameDispatcher {
     private int turnCounter;
 
     public GameDispatcher() {
+        this.frame = new GameFrame(this);
+    }
+
+    public void newGame() {
         board = new Mark[GAME_SIZE];
         currentTurn = Mark.CROSS;
         playerCross = new HumanPlayer();
         playerNought = new HumanPlayer();
-        this.frame = new GameFrame(this);
         turnCounter = 0;
+        frame.newGameBoard();
     }
 
     public void processMoveEvent(int move) {
@@ -63,6 +67,7 @@ public class GameDispatcher {
      * @return game Mark for winner or draw game. When game is not over returns null.
      */
     private Mark testWinner() {
+//        todo: create a real implementation
 //        Dumb implementation
         if (++turnCounter < GAME_SIZE) {
             return null;

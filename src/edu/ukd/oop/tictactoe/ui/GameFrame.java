@@ -10,9 +10,11 @@ public class GameFrame extends JFrame {
 
     private GameSetupPanel gameSetupPanel;
     private GameBoardPanel gameBoard;
+    GameDispatcher gameDispatcher;
 
     public GameFrame(GameDispatcher gameDispatcher) {
         super("Tic-Tac-Toe Game");
+        this.gameDispatcher = gameDispatcher;
         this.gameSetupPanel = new GameSetupPanel(gameDispatcher);
         this.gameBoard = new GameBoardPanel(gameDispatcher);
 
@@ -21,6 +23,14 @@ public class GameFrame extends JFrame {
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(gameSetupPanel, BorderLayout.NORTH);
+        setVisible(true);
+    }
+
+    public void newGameBoard() {
+        setVisible(false);
+        Container cp = getContentPane();
+        cp.remove(this.gameBoard);
+        this.gameBoard = new GameBoardPanel(gameDispatcher);
         cp.add(this.gameBoard, BorderLayout.CENTER);
         setVisible(true);
     }
