@@ -67,13 +67,74 @@ public class GameDispatcher {
      * @return game Mark for winner or draw game. When game is not over returns null.
      */
     private Mark testWinner() {
-//        todo: create a real implementation
-//        Dumb implementation
-        if (++turnCounter < GAME_SIZE) {
-            return null;
-        } else {
-            return Mark.DRAW;
+        Mark result;
+//        Test horizontal lines
+        for (int i = 0 ; i < BOARD_SIZE; i++) {
+            int pos = i * BOARD_SIZE;
+            result = board[pos];
+
+            for (int j = 1; result != null && j < BOARD_SIZE; j++) {
+                pos = i * BOARD_SIZE + j;
+                if (result != board[pos]) {
+                    result = null;
+                    break;
+                }
+            }
+            if (result != null) {
+                return result;
+            }
         }
+
+//        Test vertical lines
+        for (int i = 0 ; i < BOARD_SIZE; i++) {
+            int pos = i;
+            result = board[pos];
+            for (int j = 1; result !=null && j < BOARD_SIZE; j++) {
+                pos = j * BOARD_SIZE + i;
+                if (result != board[pos]) {
+                    result = null;
+                    break;
+                }
+            }
+            if (result != null) {
+                return result;
+            }
+        }
+
+//        Test diagonals
+        result = board[0];
+        for (int i = 1; i < BOARD_SIZE; i++) {
+            int pos = i * BOARD_SIZE + i;
+            if (result == null || result != board[pos]) {
+                result = null;
+                break;
+            }
+        }
+        if (result != null) {
+            return result;
+        }
+
+        int x = 0;
+        int y = 2;
+        int pos = x * BOARD_SIZE + y;
+        result = board[pos];
+        for (int k = 1; k < BOARD_SIZE; k++) {
+            pos = ++x * BOARD_SIZE + --y;
+            if (result == null || result != board[pos]) {
+                result = null;
+                break;
+            }
+        }
+        if (result != null) {
+            return result;
+        }
+
+//        Test draw game
+        if (++turnCounter >= GAME_SIZE) {
+            result = Mark.DRAW;
+        }
+
+        return result;
     }
 
     public Mark getCurrentTurn() {
