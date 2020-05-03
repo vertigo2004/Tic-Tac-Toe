@@ -1,6 +1,7 @@
 package edu.ukd.oop.tictactoe;
 
 import edu.ukd.oop.tictactoe.player.HumanPlayer;
+import edu.ukd.oop.tictactoe.player.RandomPlayer;
 import edu.ukd.oop.tictactoe.ui.GameFrame;
 import edu.ukd.oop.tictactoe.player.IPlayer;
 
@@ -36,10 +37,13 @@ public class GameDispatcher {
     public void newGame() {
         board = new Mark[GAME_SIZE];
         currentTurn = Mark.CROSS;
-        playerCross = new HumanPlayer();
-        playerNought = new HumanPlayer();
-        turnCounter = 0;
-        frame.newGameBoard();
+        playerCross = resolvePlayer(frame.getGameSetupPanel().getPlayerCross(), Mark.CROSS);
+        playerNought = resolvePlayer(frame.getGameSetupPanel().getPlayerNought(), Mark.NOUGHT);
+        if (playerCross != null && playerNought != null) {
+            turnCounter = 0;
+            frame.newGameBoard();
+            fireMoveEvent(playerCross);
+        }
     }
 
     public void processMoveEvent(int move) {
@@ -61,13 +65,17 @@ public class GameDispatcher {
 //        3. Switch to next player. If it's not a human player:
             currentTurn = currentTurn == Mark.CROSS ? Mark.NOUGHT : Mark.CROSS;
             IPlayer currentPlayer = currentTurn == Mark.CROSS ? playerCross : playerNought;
-            if (!currentPlayer.isHuman()) {
+            fireMoveEvent(currentPlayer);
+        }
+    }
+
+    private void fireMoveEvent(IPlayer currentPlayer) {
+        if (!currentPlayer.isHuman()) {
 //           3.1. Call IPlayer.move() to calculate next plaeyr's move.
-                int nextMove = currentPlayer.move(board);
+            int nextMove = currentPlayer.move(board);
 //           3.2. Simulate button click UI action.
-                JButton button = frame.getGameBoard().getBoardButton(nextMove);
-                button.doClick();
-            }
+            JButton button = frame.getGameBoard().getBoardButton(nextMove);
+            button.doClick();
         }
     }
 
@@ -145,6 +153,20 @@ public class GameDispatcher {
         }
 
         return result;
+    }
+
+    private IPlayer resolvePlayer(String playerName, Mark mark) {
+
+        if ("Людина".equals(playerName)) {
+            return new HumanPlayer();
+        }
+        if ("Тупенький".equals(playerName)) {
+            return new RandomPlayer();
+        }
+//        todo: implement for "Розумний", "Геній"
+        JOptionPane.showMessageDialog(frame, "Ігрок \'" + playerName +"\' ще не реалізований.",
+                "Error" , JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
     public Mark getCurrentTurn() {
