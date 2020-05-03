@@ -1,5 +1,7 @@
 package edu.ukd.oop.tictactoe.ui;
 
+import edu.ukd.oop.tictactoe.GameDispatcher;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -7,13 +9,13 @@ import java.awt.GridLayout;
 public class GameBoardPanel extends JPanel {
     public static final String POSITION = "POSITION";
 
-    private JButton[] boardButtons = new JButton[9];
+    private JButton[] boardButtons = new JButton[GameDispatcher.GAME_SIZE];
 
-    public GameBoardPanel() {
+    public GameBoardPanel(GameDispatcher gameDispatcher) {
         super();
-        setLayout(new GridLayout(3, 3));
+        setLayout(new GridLayout(GameDispatcher.BOARD_SIZE, GameDispatcher.BOARD_SIZE));
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < GameDispatcher.GAME_SIZE; i++) {
             boardButtons[i] = new JButton();
             boardButtons[i].putClientProperty(POSITION, i);
             add(boardButtons[i]);

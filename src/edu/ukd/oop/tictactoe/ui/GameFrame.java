@@ -1,5 +1,7 @@
 package edu.ukd.oop.tictactoe.ui;
 
+import edu.ukd.oop.tictactoe.GameDispatcher;
+
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -9,10 +11,10 @@ public class GameFrame extends JFrame {
     private GameSetupPanel gameSetupPanel;
     private GameBoardPanel gameBoard;
 
-    public GameFrame() {
+    public GameFrame(GameDispatcher gameDispatcher) {
         super("Tic-Tac-Toe Game");
-        this.gameSetupPanel = new GameSetupPanel();
-        this.gameBoard = new GameBoardPanel();
+        this.gameSetupPanel = new GameSetupPanel(gameDispatcher);
+        this.gameBoard = new GameBoardPanel(gameDispatcher);
 
         setSize(800, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,9 +31,5 @@ public class GameFrame extends JFrame {
 
     public GameSetupPanel getGameSetupPanel() {
         return gameSetupPanel;
-    }
-
-    public static void main(String[] args) {
-        new GameFrame();
     }
 }

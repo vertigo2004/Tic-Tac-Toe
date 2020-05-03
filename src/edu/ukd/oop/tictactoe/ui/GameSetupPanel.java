@@ -1,5 +1,7 @@
 package edu.ukd.oop.tictactoe.ui;
 
+import edu.ukd.oop.tictactoe.GameDispatcher;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -14,7 +16,7 @@ public class GameSetupPanel extends JPanel {
     private JLabel crossLabel = new JLabel("За Хрестика ->");
     private JLabel noughtLabel = new JLabel("<- За Нолика");
 
-    public GameSetupPanel() {
+    public GameSetupPanel(GameDispatcher gameDispatcher) {
         super();
 
         setLayout(new FlowLayout());
